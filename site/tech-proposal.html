@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>智慧学伴 · 技术方案讲解</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif; background: #f4f6fa; color: #1a2332; line-height: 1.75; }
+
+/* ===== Layout ===== */
+.container { max-width: 1180px; margin: 0 auto; padding: 48px 32px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 28px; font-weight: 700; color: #0f3f7a; border-left: 5px solid #1b5ec2; padding-left: 16px; margin-bottom: 28px; }
+.section-subtitle { font-size: 18px; font-weight: 600; color: #2b4d7a; margin: 24px 0 16px; }
+
+/* ===== Cover ===== */
+.cover { text-align: center; padding: 80px 0 60px; border-bottom: 1px solid #dfe5ef; margin-bottom: 56px; }
+.cover h1 { font-size: 44px; color: #0f3f7a; margin-bottom: 12px; letter-spacing: 2px; }
+.cover .subtitle { font-size: 20px; color: #5a7ea8; margin-bottom: 32px; }
+.cover .tag-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.cover .tag { background: #e8f0fc; color: #1b5ec2; padding: 6px 16px; border-radius: 20px; font-size: 14px; }
+
+/* ===== Flow Charts ===== */
+.arch-box { background: #fff; border-radius: 12px; padding: 32px; box-shadow: 0 2px 16px rgba(15,63,122,.08); }
+.flow-lane { display: flex; align-items: stretch; gap: 16px; flex-wrap: nowrap; }
+.flow-node { flex: 1; background: #f8fafd; border: 2px solid #c8d4e6; border-radius: 10px; padding: 18px; min-width: 140px; }
+.flow-node h4 { font-size: 15px; color: #0f3f7a; margin-bottom: 8px; font-weight: 700; }
+.flow-node ul { font-size: 13px; color: #4a5f7a; padding-left: 18px; }
+.flow-node li { margin-bottom: 3px; }
+.flow-arrow { display: flex; align-items: center; justify-content: center; font-size: 22px; color: #1b5ec2; font-weight: bold; flex-shrink: 0; }
+
+.flow-node.api { background: #fef3e7; border-color: #e0a24a; }
+.flow-node.api h4 { color: #b45309; }
+.flow-node.llm { background: #e8f5e9; border-color: #4caf50; }
+.flow-node.llm h4 { color: #1b6b1f; }
+.flow-node.core { background: #eaf0fc; border-color: #1b5ec2; }
+.flow-node.core h4 { color: #0f3f7a; }
+.flow-node.data { background: #fff; border-color: #9db3d1; }
+
+/* ===== Two Columns ===== */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.two-col-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+
+.card { background: #fff; border-radius: 10px; padding: 22px; box-shadow: 0 2px 12px rgba(15,63,122,.06); }
+.card h4 { font-size: 16px; color: #0f3f7a; margin-bottom: 10px; font-weight: 700; }
+.card p { font-size: 14px; color: #3a4f6a; }
+
+/* ===== Tables ===== */
+table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 14px; }
+th { background: #1b5ec2; color: #fff; padding: 12px 14px; text-align: left; font-weight: 600; }
+td { padding: 12px 14px; border-bottom: 1px solid #e4e9f2; color: #2a3f5a; }
+tr:nth-child(even) td { background: #f9fbfd; }
+
+/* ===== Code Block ===== */
+pre { background: #1e293b; color: #e2e8f0; padding: 16px 20px; border-radius: 8px; font-size: 13px; overflow-x: auto; margin: 12px 0 20px; line-height: 1.6; }
+pre .kw { color: #f472b6; }
+pre .fn { color: #60a5fa; }
+pre .str { color: #86efac; }
+pre .cm { color: #64748b; }
+pre .num { color: #fbbf24; }
+
+/* ===== Innovation Card ===== */
+.innov-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 18px; }
+.innov-card { background: #fff; border-radius: 10px; padding: 22px; box-shadow: 0 2px 12px rgba(15,63,122,.06); border-top: 4px solid #1b5ec2; }
+.innov-card h4 { font-size: 16px; color: #0f3f7a; margin-bottom: 6px; font-weight: 700; }
+.innov-card .priority { display: inline-block; font-size: 12px; padding: 2px 10px; border-radius: 12px; margin-bottom: 10px; font-weight: 600; }
+.priority.p0 { background: #fee2e2; color: #b91c1c; }
+.priority.p1 { background: #fef3c7; color: #92400e; }
+.priority.p2 { background: #e0e7ff; color: #3730a3; }
+.priority.p3 { background: #dbeafe; color: #1e40af; }
+.innov-card p { font-size: 14px; color: #3a4f6a; }
+.innov-card .example { margin-top: 10px; padding: 10px 12px; background: #f1f5f9; border-radius: 6px; font-size: 13px; color: #475569; }
+
+/* ===== API Layer Visual ===== */
+.api-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 16px rgba(15,63,122,.08); }
+.api-side { padding: 24px; }
+.api-side.left { background: #eaf0fc; border-right: 2px dashed #9db3d1; }
+.api-side.right { background: #fef3e7; }
+.api-side h4 { margin-bottom: 12px; font-size: 16px; font-weight: 700; }
+.api-side.left h4 { color: #0f3f7a; }
+.api-side.right h4 { color: #b45309; }
+.api-side ul { padding-left: 18px; font-size: 14px; color: #3a4f6a; }
+.api-side li { margin-bottom: 6px; }
+
+/* ===== Roadmap ===== */
+.roadmap { display: flex; justify-content: space-between; position: relative; padding: 28px 0; }
+.roadmap::before { content: ""; position: absolute; top: 50px; left: 8%; right: 8%; height: 3px; background: linear-gradient(90deg, #1b5ec2, #4caf50); }
+.rm-node { text-align: center; flex: 1; position: relative; z-index: 1; }
+.rm-dot { width: 44px; height: 44px; border-radius: 50%; background: #1b5ec2; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; margin: 0 auto 10px; font-size: 18px; box-shadow: 0 3px 12px rgba(27,94,194,.3); }
+.rm-node:nth-child(3) .rm-dot { background: #e0a24a; }
+.rm-node:nth-child(4) .rm-dot { background: #4caf50; }
+.rm-node h5 { font-size: 14px; color: #0f3f7a; font-weight: 700; margin-bottom: 4px; }
+.rm-node p { font-size: 12px; color: #6a7f9a; }
+
+/* ===== Footer ===== */
+.footer { text-align: center; padding: 40px 0 0; border-top: 1px solid #dfe5ef; margin-top: 40px; color: #8a9ab0; font-size: 13px; }
+
+/* ===== Note ===== */
+.note { background: #fffbeb; border-left: 4px solid #e0a24a; padding: 12px 18px; border-radius: 0 8px 8px 0; font-size: 14px; color: #78350f; margin: 12px 0; }
+.note.info { background: #eff6ff; border-left-color: #1b5ec2; color: #1e40af; }
+.note.success { background: #f0fdf4; border-left-color: #4caf50; color: #166534; }
+
+.highlight { color: #c2410c; font-weight: 600; }
+.highlight.green { color: #166534; }
+.highlight.blue { color: #1b5ec2; }
+.highlight.red { color: #b91c1c; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ===== Cover ===== -->
+<div class="cover">
+  <h1>智慧学伴</h1>
+  <div class="subtitle">学情诊断与个性化学习智能体 · 技术方案讲解</div>
+  <div class="tag-row">
+    <span class="tag">七年级数学</span>
+    <span class="tag">数据驱动</span>
+    <span class="tag">规则引擎 + LLM</span>
+    <span class="tag">评分点级精细诊断</span>
+    <span class="tag">可追溯学习建议</span>
+  </div>
+</div>
+
+<!-- ===== 1. 赛题理解 ===== -->
+<div class="section">
+  <h2 class="section-title">一、赛题到底要我们做什么</h2>
+  <div class="two-col">
+    <div class="card">
+      <h4>数据（输入）</h4>
+      <p>赛题组锁定：40名模拟学生、806条作答记录、54道赛题、两个测验节点（N01上学期、N02下学期）、三个数学主题（T01代数式、T02方程、T03不等式）、8份教材切片、2022版课标PDF。</p>
+    </div>
+    <div class="card">
+      <h4>三项任务（输出）</h4>
+      <p><b>① 内容梳理：</b>课标→教材→题目三者关联<br>
+         <b>② 学情分析：</b>个体+群体+评分点级精细诊断<br>
+         <b>③ 学习建议：</b>具体题目编号+理由+分步提示+先后顺序</p>
+    </div>
+  </div>
+  <div class="note success" style="margin-top:20px">
+    <b>核心命题：</b>赛题把数据锁死、技术栈不限制——竞争点不在"用了什么模型"，而在<b>对这套数据的理解深度</b>和<b>交付结果的质量</b>。
+  </div>
+</div>
+
+<!-- ===== 2. 架构总览 ===== -->
+<div class="section">
+  <h2 class="section-title">二、整体架构</h2>
+  <div class="arch-box">
+    <div class="flow-lane" style="margin-bottom:20px">
+      <div class="flow-node data"><h4>数据输入层</h4>
+        <ul><li>课程要求 CSV</li><li>题目与材料</li><li>学生/班级</li><li>作答记录 806条</li><li>测验节点</li><li>教材切片 PDF</li></ul>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node core"><h4>数据清洗 & 知识构建</h4>
+        <ul><li>评分点字段解析</li><li>修订版本追踪</li><li>主题→指标→题目→评分点 四级知识图谱</li><li>评分点→知识点标签映射</li></ul>
+      </div>
+    </div>
+
+    <div style="text-align:center; color:#8a9ab0; font-size:24px; margin:8px 0">↓ 三大核心模块 ↓</div>
+
+    <div class="flow-lane" style="margin-bottom:20px">
+      <div class="flow-node core" style="flex:1.3"><h4>模块A · 内容梳理</h4>
+        <ul><li>输出 结构化知识图谱 JSON</li><li>每个指标→教材页码→赛题题目</li><li>硬编码知识点前置依赖</li></ul>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node core" style="flex:1.3"><h4>模块B · 学情诊断</h4>
+        <ul><li>40名学生 × 2个节点</li><li>主题/指标/评分点三级聚合</li><li>识别"系统性薄弱点"和"记录不足"</li></ul>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node core" style="flex:1.3"><h4>模块C · 学习建议</h4>
+        <ul><li>规则引擎驱动，不调LLM</li><li>按前置依赖排序</li><li>不直接给答案，分步提示</li></ul>
+      </div>
+    </div>
+
+    <div style="text-align:center; color:#8a9ab0; font-size:24px; margin:8px 0">↓ LLM 包装层 ↓</div>
+
+    <div class="flow-lane">
+      <div class="flow-node llm"><h4>LLM · 文心一言 API</h4>
+        <ul><li>① 诊断 JSON → 自然语言</li><li>② 建议理由润色</li><li>③ 交互式追问</li><li>④ 调整对话</li></ul>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node api"><h4>智能体 · 输出</h4>
+        <ul><li>知识图谱 JSON</li><li>个体+群体诊断 JSON</li><li>学习建议 JSON</li><li>典型案例展示 HTML</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 3. 规则引擎 vs LLM 边界 ===== -->
+<div class="section">
+  <h2 class="section-title">三、规则引擎 vs LLM · 精确分工</h2>
+  <div class="api-split">
+    <div class="api-side left">
+      <h4>🔒 规则引擎 / pandas 负责（100%确定性）</h4>
+      <ul>
+        <li>✅ 数据清洗、评分点解析、修订版本处理</li>
+        <li>✅ 计算得分率、主题/指标/评分点聚合</li>
+        <li>✅ 决定推荐哪道题、什么顺序（必须可追溯到具体题）</li>
+        <li>✅ 识别"系统性薄弱点"（同一知识点多题丢分）</li>
+        <li>✅ 识别"记录不足"并生成补充观察建议</li>
+        <li>✅ 班级统计、两班对比、相关性计算</li>
+        <li>✅ 知识图谱构建、前置依赖排序</li>
+      </ul>
+      <div class="note" style="background:#dbeafe; border-left-color:#1b5ec2; color:#1e40af; margin-top:12px">
+        <b>为什么不调LLM？</b> 赛题评分要求"结果准确、依据充分"——规则引擎的每一个结论都有精确的数据支撑，LLM的"幻觉"在这里是致命风险。
+      </div>
+    </div>
+    <div class="api-side right">
+      <h4>🤖 LLM（文心一言 API）负责（灵活性）</h4>
+      <ul>
+        <li>✅ 把结构化诊断翻译成自然语言（像真老师说的话）</li>
+        <li>✅ 把建议润色成分步启发式提示语</li>
+        <li>✅ 交互式追问（"为什么这么判断？"）</li>
+        <li>✅ 用户提反馈后的建议调整对话</li>
+        <li>✅ 把JSON数据组织成通顺的课堂讲解</li>
+      </ul>
+      <div class="note" style="background:#fef3c7; border-left-color:#e0a24a; color:#92400e; margin-top:12px">
+        <b>为什么要调LLM？</b> 规则引擎输出的是冷冰冰的JSON——智能体的"智能体感"来自LLM把这些结果变成人类自然语言，并支持交互式对话。
+      </div>
+    </div>
+  </div>
+  <div class="note success" style="margin-top:20px">
+    <b>一句话概括：</b> 规则引擎是"脑"（想清楚、算准确），LLM是"身"（说出来、聊起来）。脑不能让身胡说，身也要让脑被听懂。
+  </div>
+</div>
+
+<!-- ===== 4. 核心模块详解 ===== -->
+<div class="section">
+  <h2 class="section-title">四、三大核心模块详解</h2>
+
+  <h3 class="section-subtitle">模块A · 学科知识图谱（一次性构建）</h3>
+  <div class="two-col-2-1">
+    <div class="card">
+      <h4>构建逻辑</h4>
+      <p>从 CSV 直接解析出 <span class="highlight blue">主题 → 指标 → 教材页码 → 赛题题目 → 评分点</span> 五级映射。关键的创新点是给每个评分点硬编码"知识点标签"（如 Q015P3 → <b>"负号去括号后的结果符号"</b>）。这些标签是后续评分点级精细诊断的基础。</p>
+    </div>
+    <div class="card">
+      <h4>硬编码依赖关系</h4>
+      <p>T01I1（数量关系）→ T01I2（同类项）→ T02I1（解方程）→ T02I3（应用题）→ T03I1（解不等式）<br>这个依赖链用于规则引擎排序建议的先后顺序。</p>
+    </div>
+  </div>
+
+  <h3 class="section-subtitle">模块B · 学情诊断引擎（核心创新区）</h3>
+  <div class="two-col">
+    <div class="card">
+      <h4>四级聚合粒度</h4>
+      <p>
+        ① <b>学生×节点×主题</b> → 主题得分率<br>
+        ② <b>学生×节点×指标</b> → 指标得分率<br>
+        ③ <b>学生×节点×评分点</b> → 知识点得分率 ← <span class="highlight red">最大差异化机会</span><br>
+        ④ <b>评分点跨题目聚合</b> → 识别"系统性薄弱点"<br>
+      </p>
+    </div>
+    <div class="card">
+      <h4>"记录不足"的正确处理</h4>
+      <p>赛题明确考这个。规则：<br>
+        <b>已评分且得分低</b> → 真薄弱<br>
+        <b>未作答 / 待评分</b> → <span class="highlight">不算"不会"</span>，算"记录空白"<br>
+        <b>某指标只答过1道题</b> → 标注"记录不足，暂不能确定"，建议补充观察
+      </p>
+    </div>
+  </div>
+
+  <h3 class="section-subtitle">模块C · 学习建议生成（规则驱动，不调LLM）</h3>
+  <table>
+    <tr><th>步骤</th><th>做什么</th><th>输出</th></tr>
+    <tr><td>Step 1</td><td>从诊断结果中按优先级排序薄弱点</td><td>🔴高 → 🟡中 → 🟢低</td></tr>
+    <tr><td>Step 2</td><td>每个薄弱点在知识图谱中找对应题目，按难度递增</td><td>Q010(基础) → Q015(综合) → Q009(变式)</td></tr>
+    <tr><td>Step 3</td><td>根据前置依赖规则，确定建议先后顺序</td><td>先补T01I2再练T02I1</td></tr>
+    <tr><td>Step 4</td><td>记录不足项生成"补充观察建议"（不是补弱建议）</td><td>"补做Q022，判断真实水平"</td></tr>
+    <tr><td>Step 5</td><td>每条建议附带分步提示语（启发式，不直接给答案）</td><td>"注意括号前的负号..."</td></tr>
+  </table>
+</div>
+
+<!-- ===== 5. 六大创新竞争点 ===== -->
+<div class="section">
+  <h2 class="section-title">五、差异化竞争点（脱颖而出的关键）</h2>
+  <div class="innov-grid">
+    <div class="innov-card">
+      <span class="priority p0">P0 · 最大差异化</span>
+      <h4>① 评分点级精细诊断</h4>
+      <p>不是算"整式化简得分率40%"，而是说"<b>负号去括号后的结果符号</b>在Q015、Q018、Q022三次全部丢分"——精准定位到具体知识点。</p>
+      <div class="example">普通做法: "整式化简弱"<br>我们的做法: "整式化简中的<b>符号处理</b>完全没掌握，但<b>去括号法则</b>和<b>系数合并</b>都没问题"</div>
+    </div>
+
+    <div class="innov-card">
+      <span class="priority p0">P0 · 赛题明确考察</span>
+      <h4>② "记录不足"的诚实处理</h4>
+      <p>明确区分三种状态：已评分低分=薄弱；未作答/待评分=记录空白；答过但≤1道题=不足。绝不把"没记录"说成"不会"。</p>
+      <div class="example">✓ "D07的T02I3（方程建模）只有1道题的作答记录，不足以判断真实水平"<br>✗ "D07不会列方程"</div>
+    </div>
+
+    <div class="innov-card">
+      <span class="priority p1">P1 · 让建议逻辑严谨</span>
+      <h4>③ 交叉关联诊断</h4>
+      <p>发现跨主题的连锁反应：D15的T02I3（方程建模）差 → 根因是T01I1（字母表示数量关系）没学好。建议顺序：先补根因 → 再练症状。</p>
+      <div class="example">40个学生的 T01I1得分率 vs T02I3得分率 相关系数 > 0.7 → 确认前置关系</div>
+    </div>
+
+    <div class="innov-card">
+      <span class="priority p1">P1 · 赛题明确考察</span>
+      <h4>④ 建议的可执行性 + 不直接给答案</h4>
+      <p>每条建议有：具体题目编号、教材页码、分步启发式提示语、完成条件、后续调整方案。<b>提示语用引导性语言，绝不出现"答案是xxx"。</b></p>
+      <div class="example">✓ "注意括号前是负号时，括号内每一项都要乘以-2，特别关注-2乘以-3这一项"<br>✗ "答案是-4a+6"</div>
+    </div>
+
+    <div class="innov-card">
+      <span class="priority p2">P2 · 洞察学习过程</span>
+      <h4>⑤ 修订版本追踪</h4>
+      <p>分析"改了几次改对"、"从哪一步开始改"、"改了还是错"。揭示学生的学习速度和具体障碍点——这是大多数队伍会忽略的维度。</p>
+      <div class="example">"D07改Q015一次就对了，但Q009改了3次还是2分 → 能修正单点失误，不能处理复合障碍"</div>
+    </div>
+
+    <div class="innov-card">
+      <span class="priority p2">P2 · 体现数据理解深度</span>
+      <h4>⑥ 节点间纵向分析</h4>
+      <p>利用 N01（只教T01+T02一元一次方程）和 N02（复习T01+新增T02方程组+T03不等式）的<b>教学进度差</b>来解释"为什么这个指标进步了/退步了"。</p>
+      <div class="example">"D01的T01I1从80%提高到90% → 复习确实有效"<br>"D10从60%降到40% → 可能因为新学T03分散了注意力"</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 6. LLM 接入点详解 ===== -->
+<div class="section">
+  <h2 class="section-title">六、LLM 接入点详解（文心一言 API）</h2>
+
+  <div class="two-col">
+    <div class="card">
+      <h4>接入位置</h4>
+      <p>四个调用点，全部在 <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px">src/llm_formatter.py</code> 里：</p>
+      <table>
+        <tr><th>位置</th><th>输入</th><th>输出</th></tr>
+        <tr><td>Formatter #1</td><td>诊断 JSON</td><td>自然语言诊断报告</td></tr>
+        <tr><td>Formatter #2</td><td>建议 JSON</td><td>自然语言建议 + 润色提示语</td></tr>
+        <tr><td>Interactive</td><td>用户追问 + JSON</td><td>对话式回答</td></tr>
+        <tr><td>Adjustment</td><td>用户反馈 + 建议</td><td>调整后的建议</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h4>API 规范</h4>
+      <p><b>平台：</b>百度千帆大模型平台<br>
+         <b>模型：</b>ernie-4.0-turbo-128k（中文好、性价比高、长上下文）<br>
+         <b>鉴权：</b>API Key + Secret Key → access_token（缓存1个月）<br>
+         <b>调用频率：</b>批量生成40人报告 ≈ 80次 LLM 调用（一次性跑通）<br>
+         <b>Key 管理：</b>从环境变量读取，不硬编码</p>
+      <pre><code># config.py
+LLM_API_KEY = os.environ.get("WENXIN_API_KEY", "")
+LLM_SECRET_KEY = os.environ.get("WENXIN_SECRET_KEY", "")
+LLM_MODEL = "ernie-4.0-turbo-128k"</code></pre>
+    </div>
+  </div>
+
+  <h3 class="section-subtitle">Prompt 模板示例（Formatter #1 · 诊断转自然语言）</h3>
+  <pre><code><span class="kw">def</span> <span class="fn">format_diagnostic</span>(diagnostics_json: <span class="kw">dict</span>, llm_client) -> <span class="kw">str</span>:
+    <span class="cm">"""把规则引擎产出的结构化诊断转成自然语言报告"""</span>
+    prompt = <span class="str">f"""你是一名七年级数学教育专家，正在为一名学生生成学情诊断报告。
+
+<span class="cm">**核心要求：**</span>
+<span class="cm">1. 诚实优先：数据不足就说"暂不能确定"，绝不猜测</span>
+<span class="cm">2. 定位具体：不说"整式化简不好"，要说"在负号去括号这一点上，三次全错"</span>
+<span class="cm">3. 用老师的语气：像班主任谈话，自然专业不生硬</span>
+<span class="cm">4. 结构清晰：先总结 → 再分点说发现 → 最后说需要观察的地方</span>
+<span class="cm">5. 不超出数据范围：每一个"问题"必须有数据支撑</span>
+
+<span class="cm">**结构化数据：**</span>
+{json.dumps(diagnostics_json, ensure_ascii=False, indent=2)}
+
+<span class="cm">请生成诊断报告："""</span>
+    <span class="kw">return</span> llm_client.chat(<span class="fn">system_prompt</span>=<span class="str">"你是一名七年级数学教育专家..."</span>,
+                                  <span class="fn">user_content</span>=prompt)</code></pre>
+</div>
+
+<!-- ===== 7. 技术栈 ===== -->
+<div class="section">
+  <h2 class="section-title">七、技术栈与依赖</h2>
+  <div class="two-col">
+    <div class="card">
+      <h4>核心（必须）</h4>
+      <ul style="padding-left:18px; font-size:14px; color:#3a4f6a">
+        <li><b>Python 3.11+</b> — 主语言</li>
+        <li><b>pandas + numpy</b> — 数据清洗、聚合、统计</li>
+        <li><b>pdfplumber</b> — 教材切片文本提取（预处理一次即可）</li>
+        <li><b>requests</b> — HTTP 调文心一言 API</li>
+        <li><b>openpyxl</b> — 读取 Excel 索引文件</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>不使用（明确排除）</h4>
+      <ul style="padding-left:18px; font-size:14px; color:#3a4f6a">
+        <li>🚫 LangChain / LangGraph — 不用通用 Agent 框架</li>
+        <li>🚫 向量数据库（Chroma / FAISS）— 赛题范围固定，规则引擎足够</li>
+        <li>🚫 通用大模型端到端 — 结果不可控，评审要证据</li>
+        <li>🚫 前端框架（React/Vue）— 赛题不需要实时交互界面</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 8. 实施路线 ===== -->
+<div class="section">
+  <h2 class="section-title">八、实施路线图</h2>
+  <div class="roadmap">
+    <div class="rm-node"><div class="rm-dot">1</div><h5>Phase 1</h5><p>数据清洗<br>+ 知识图谱</p></div>
+    <div class="rm-node"><div class="rm-dot">2</div><h5>Phase 2</h5><p>学情诊断引擎<br>+ 评分点级诊断</p></div>
+    <div class="rm-node"><div class="rm-dot">3</div><h5>Phase 3</h5><p>学习建议引擎<br>+ 规则驱动</p></div>
+    <div class="rm-node"><div class="rm-dot">4</div><h5>Phase 4</h5><p>LLM 包装层<br>+ 交互式原型</p></div>
+    <div class="rm-node"><div class="rm-dot">5</div><h5>Phase 5</h5><p>文档 + 演示视频<br>+ 答辩 PPT</p></div>
+  </div>
+</div>
+
+<!-- ===== Footer ===== -->
+<div class="footer">
+  智慧学伴 · 学情诊断与个性化学习智能体 · 技术方案讲解
+</div>
+
+</div>
+</body>
+</html>
