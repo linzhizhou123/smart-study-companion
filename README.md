@@ -7,7 +7,11 @@
 
 ## 在线演示
 
-**GitHub Pages**：<https://YOUR_GITHUB_USERNAME.github.io/shujian-learning-companion/>
+**GitHub Pages**：<https://linzhizhou123.github.io/smart-study-companion/>
+
+仓库：<https://github.com/linzhizhou123/smart-study-companion>
+
+技术方案讲解：<https://linzhizhou123.github.io/smart-study-companion/tech-proposal.html>
 
 > 演示页是单文件 HTML，已内嵌赛事模拟学情数据；原始 CSV / PDF / 教材切片**未包含在仓库中**，仅保留代码与演示。赛题资料的使用范围以赛题组要求为准。
 
@@ -47,11 +51,13 @@
 
 ```
 .
+├── index.html                        # 原有技术方案讲解页（保留）
 ├── dist/
 │   ├── index.html                    # 单文件演示（可直接打开）
 │   └── 数见-智慧学伴-单文件.zip       # 单文件压缩包
 ├── docs/
-│   ├── index.html                    # GitHub Pages 入口
+│   ├── index.html                    # GitHub Pages 入口（数见演示）
+│   ├── tech-proposal.html            # 技术方案讲解（Pages 可访问）
 │   ├── preview.png                   # 预览图
 │   └── .nojekyll
 ├── src/
