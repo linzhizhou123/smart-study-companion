@@ -51,7 +51,8 @@
 
 ```
 .
-├── index.html                        # 原有技术方案讲解页（保留）
+├── index.html                        # 数见单文件演示（GitHub Pages 入口）
+├── tech-proposal.html                # 原有技术方案讲解页（保留）
 ├── dist/
 │   ├── index.html                    # 单文件演示（可直接打开）
 │   └── 数见-智慧学伴-单文件.zip       # 单文件压缩包
