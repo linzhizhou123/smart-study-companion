@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+# 赛题原始数据与生成结果不进入公开仓库
+data/*.csv
+data/pdf/
+data/textbooks/
+output/*.json
+output/typical_cases.html
+output/typical_cases.json
+output/web_data.json
+# 本地运行产物
+*.log
+tunnel.log
+pinggy.log
+_test/
+_finaltest/
+dist/public/
+dist/shot*.png
