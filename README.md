@@ -57,7 +57,7 @@
 │   ├── index.html                    # 单文件演示（可直接打开）
 │   └── 数见-智慧学伴-单文件.zip       # 单文件压缩包
 ├── docs/
-│   ├── index.html                    # GitHub Pages 入口（数见演示）
+│   ├── index.html                    # 备用演示（与根目录一致）
 │   ├── tech-proposal.html            # 技术方案讲解（Pages 可访问）
 │   ├── preview.png                   # 预览图
 │   └── .nojekyll
